@@ -9,9 +9,8 @@ import { AuthProvider } from "@/components/auth-provider"
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] }) // Use Poppins font
 
 export const metadata: Metadata = {
-  title: "Portfolio | Developer",
-  description: "Personal portfolio website",
-    generator: 'v0.dev'
+  title: "Ayomide Olaleye",
+  description: "Fullstack Developer"
 }
 
 export default function RootLayout({
