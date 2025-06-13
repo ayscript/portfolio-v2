@@ -124,10 +124,11 @@ export async function PortfolioContent() {
                 {personalInfo.title}
               </h1>
               <p className="text-zinc-400 max-w-2xl mt-6">{personalInfo.bio}</p>
-
-              <Button className="mt-8 bg-transparent hover:bg-cyan-950/50 border border-cyan-500 text-cyan-500 flex items-center gap-2">
-                Let's Talk <MessageCircle size={18} />
-              </Button>
+              <Link href={"https://wa.me/+2347014329650"}>
+                <Button className="mt-8 bg-transparent hover:bg-cyan-950/50 border border-cyan-500 text-cyan-500 flex items-center gap-2">
+                  Let's Talk <MessageCircle size={18} />
+                </Button>
+              </Link>
             </div>
 
             <div className="bg-zinc-900/60 rounded-2xl p-8 border border-zinc-800">
@@ -287,7 +288,10 @@ export async function PortfolioContent() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {certifications.map((cert: any) => (
-            <Card key={cert.id} className="bg-zinc-900/60 items-start flex flex-col border-zinc-800">
+            <Card
+              key={cert.id}
+              className="bg-zinc-900/60 items-start flex flex-col border-zinc-800"
+            >
               <div className="p-4 flex justify-center">
                 <Image
                   src={cert.image || "/placeholder.svg?height=200&width=200"}
@@ -348,7 +352,7 @@ export async function PortfolioContent() {
                 <p className="text-zinc-400">Social Media</p>
                 <div className="flex gap-4 mt-2">
                   <Link
-                    href="https://github.com"
+                    href="https://github.com/ayscript"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -375,7 +379,7 @@ export async function PortfolioContent() {
                     </Button>
                   </Link>
                   <Link
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/ayomide-olaleye-32349a230/"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -403,7 +407,7 @@ export async function PortfolioContent() {
                     </Button>
                   </Link>
                   <Link
-                    href="https://twitter.com"
+                    href="https://x.com/ayscript_js"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -414,17 +418,14 @@ export async function PortfolioContent() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-5 w-5"
+                        x="0px"
+                        y="0px"
+                        width={25}
+                        height={25}
+                        fill="currentColor"
+                        viewBox="0 0 50 50"
                       >
-                        <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                        <path d="M 5.9199219 6 L 20.582031 27.375 L 6.2304688 44 L 9.4101562 44 L 21.986328 29.421875 L 31.986328 44 L 44 44 L 28.681641 21.669922 L 42.199219 6 L 39.029297 6 L 27.275391 19.617188 L 17.933594 6 L 5.9199219 6 z M 9.7167969 8 L 16.880859 8 L 40.203125 42 L 33.039062 42 L 9.7167969 8 z" />
                       </svg>
                     </Button>
                   </Link>
