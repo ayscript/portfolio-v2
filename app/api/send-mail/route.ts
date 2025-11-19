@@ -19,6 +19,6 @@ export async function POST(request: Request) {
 
   return new NextResponse(JSON.stringify({message: "Email Sent successfully!"}));
   } catch (error) {
-    return new NextResponse(`An error oiccured: ${error}`, {status: 500})
+    return new NextResponse(JSON.stringify({message: `An error occured: ${error}`}), {status: 500})
   }
 }
