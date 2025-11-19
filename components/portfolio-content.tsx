@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
@@ -13,20 +14,50 @@ import {
 import { getPersonalInfo } from "@/lib/firebase-utils";
 import { getProjects } from "@/lib/firebase-utils";
 import { getCertifications } from "@/lib/firebase-utils";
+import { useState, useEffect } from "react";
 
-// This is a server component that fetches data from Firebase
-export async function PortfolioContent() {
+export function PortfolioContent() {
   // Fetch data from Firebase
   const personalInfoPromise = getPersonalInfo();
   const projectsPromise = getProjects();
   const certificationsPromise = getCertifications();
 
-  // Wait for all promises to resolve
-  const [personalInfo, projects, certifications] = await Promise.all([
-    personalInfoPromise,
-    projectsPromise,
-    certificationsPromise,
-  ]);
+  const [personalInfo, setPersonalInfo] = useState<any>({
+    name: "",
+    title: "",
+    bio: "",
+    email: "",
+    location: "",
+    jobStatus: "",
+    website: "",
+    profilePicture: "",
+    skills: [],
+    stats: [],
+  });
+  const [projects, setProjects] = useState<any[]>([]);
+  const [certifications, setCertifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const [pInfo, prj, certs] = await Promise.all([
+          personalInfoPromise,
+          projectsPromise,
+          certificationsPromise,
+        ]);
+        if (!mounted) return;
+        setPersonalInfo(pInfo || {});
+        setProjects(prj || []);
+        setCertifications(certs || []);
+      } catch (err) {
+        console.error("Failed to load portfolio data", err);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [personalInfoPromise, projectsPromise, certificationsPromise]);
 
   // Default skills if not provided in personalInfo
   const skills = personalInfo.skills || [
@@ -55,6 +86,49 @@ export async function PortfolioContent() {
       label: "Years of Experience",
     },
   ];
+
+  const [formData, setFormData] = useState({
+    subject: "",
+    text: "",
+    fullName: "",
+    email: "",
+  });
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    setFormData((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  }
+  
+  const [formLoading, setFormLoading] = useState(false)
+
+  async function handleFormSubmit(){
+    setFormLoading(true)
+    try {
+      const res = await fetch("/api/send-mail", {
+      headers: {
+        'Content-Type': "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(formData)
+    })
+    const data = await res.json()
+    setFormData({
+    subject: "",
+    text: "",
+    fullName: "",
+    email: "",
+  })
+
+    alert(data?.message)
+    } catch (error) {
+      alert(`${error}`)
+    } finally {
+      setFormLoading(false)
+    }
+  }
 
   return (
     <>
@@ -434,7 +508,10 @@ export async function PortfolioContent() {
             </div>
           </div>
           <div className="bg-zinc-900/60 rounded-xl p-6 border border-zinc-800">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={e => {
+              e.preventDefault()
+              handleFormSubmit()
+            }}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="name" className="text-sm text-zinc-400">
@@ -442,6 +519,9 @@ export async function PortfolioContent() {
                   </label>
                   <input
                     id="name"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     type="text"
                     required
@@ -453,6 +533,9 @@ export async function PortfolioContent() {
                   </label>
                   <input
                     id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     type="email"
                     required
@@ -465,6 +548,9 @@ export async function PortfolioContent() {
                 </label>
                 <input
                   id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
                   type="text"
                   required
@@ -476,12 +562,17 @@ export async function PortfolioContent() {
                 </label>
                 <textarea
                   id="message"
+                  name="text"
+                  value={formData.text}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 bg-zinc-800 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 min-h-[150px]"
                   required
                 ></textarea>
               </div>
-              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-medium">
-                Send Message
+              <Button disabled={formLoading} className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-medium">
+                {
+                  formLoading ? "Sending Mail..." : "Send Message"
+                }
               </Button>
             </form>
           </div>
