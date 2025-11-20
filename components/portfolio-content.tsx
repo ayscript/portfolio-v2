@@ -36,6 +36,8 @@ export function PortfolioContent() {
   });
   const [projects, setProjects] = useState<any[]>([]);
   const [certifications, setCertifications] = useState<any[]>([]);
+  
+  const  [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let mounted = true;
@@ -50,14 +52,17 @@ export function PortfolioContent() {
         setPersonalInfo(pInfo || {});
         setProjects(prj || []);
         setCertifications(certs || []);
+        console.log("done")
       } catch (err) {
         console.error("Failed to load portfolio data", err);
+      } finally{
+        setLoading(false)
       }
     })();
     return () => {
       mounted = false;
     };
-  }, [personalInfoPromise, projectsPromise, certificationsPromise]);
+  }, []);
 
   // Default skills if not provided in personalInfo
   const skills = personalInfo.skills || [
@@ -128,6 +133,12 @@ export function PortfolioContent() {
     } finally {
       setFormLoading(false)
     }
+  }
+
+  if (loading) {
+    return (
+      <p>Loading...</p>
+    )
   }
 
   return (
