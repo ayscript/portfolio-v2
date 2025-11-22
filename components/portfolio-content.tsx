@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
@@ -36,8 +36,8 @@ export function PortfolioContent() {
   });
   const [projects, setProjects] = useState<any[]>([]);
   const [certifications, setCertifications] = useState<any[]>([]);
-  
-  const  [loading, setLoading] = useState(true)
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
@@ -52,11 +52,11 @@ export function PortfolioContent() {
         setPersonalInfo(pInfo || {});
         setProjects(prj || []);
         setCertifications(certs || []);
-        console.log("done")
+        console.log("done");
       } catch (err) {
         console.error("Failed to load portfolio data", err);
-      } finally{
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     })();
     return () => {
@@ -92,53 +92,51 @@ export function PortfolioContent() {
     },
   ];
 
-  const [formData, setFormData] = useState({
-    subject: "",
-    text: "",
-    fullName: "",
-    email: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   subject: "",
+  //   text: "",
+  //   fullName: "",
+  //   email: "",
+  // });
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    setFormData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  }
-  
-  const [formLoading, setFormLoading] = useState(false)
+  // function handleChange(
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) {
+  //   setFormData((prev) => {
+  //     return { ...prev, [e.target.name]: e.target.value };
+  //   });
+  // }
 
-  async function handleFormSubmit(){
-    setFormLoading(true)
-    try {
-      const res = await fetch("/api/send-mail", {
-      headers: {
-        'Content-Type': "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(formData)
-    })
-    const data = await res.json()
-    setFormData({
-    subject: "",
-    text: "",
-    fullName: "",
-    email: "",
-  })
+  // const [formLoading, setFormLoading] = useState(false);
 
-    alert(data?.message)
-    } catch (error) {
-      alert(`${error}`)
-    } finally {
-      setFormLoading(false)
-    }
-  }
+  // async function handleFormSubmit() {
+  //   setFormLoading(true);
+  //   try {
+  //     const res = await fetch("/api/send-mail", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       method: "POST",
+  //       body: JSON.stringify(formData),
+  //     });
+  //     const data = await res.json();
+  //     setFormData({
+  //       subject: "",
+  //       text: "",
+  //       fullName: "",
+  //       email: "",
+  //     });
+
+  //     alert(data?.message);
+  //   } catch (error) {
+  //     alert(`${error}`);
+  //   } finally {
+  //     setFormLoading(false);
+  //   }
+  // }
 
   if (loading) {
-    return (
-      <p>Loading...</p>
-    )
+    return <p>Loading...</p>;
   }
 
   return (
@@ -518,7 +516,7 @@ export function PortfolioContent() {
               </div>
             </div>
           </div>
-          <div className="bg-zinc-900/60 rounded-xl p-6 border border-zinc-800">
+          {/* <div className="bg-zinc-900/60 rounded-xl p-6 border border-zinc-800">
             <form className="space-y-4" onSubmit={e => {
               e.preventDefault()
               handleFormSubmit()
@@ -586,7 +584,7 @@ export function PortfolioContent() {
                 }
               </Button>
             </form>
-          </div>
+          </div> */}
         </div>
       </section>
 
