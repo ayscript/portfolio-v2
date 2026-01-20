@@ -1,3 +1,4 @@
+import ChatWidget from "@/components/chatWidget";
 import { PortfolioContent } from "@/components/portfolio-content";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
 
       <main className="flex-1">
         <PortfolioContent />
+        <ChatWidget />
       </main>
     </div>
   );
