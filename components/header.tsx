@@ -65,12 +65,8 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between max-md:flex-wrap px-4">
         <div className="flex items-center gap-2">
           <Link
-            href="/#home"
+            href="/"
             className="flex items-center gap-2 text-lg font-semibold text-cyan-500"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToSection("home");
-            }}
           >
             <Code className="h-6 w-6" />
             <span>Ayscript</span>

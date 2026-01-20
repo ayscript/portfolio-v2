@@ -11,31 +11,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getPersonalInfo } from "@/lib/firebase-utils";
-import { getProjects } from "@/lib/firebase-utils";
-import { getCertifications } from "@/lib/firebase-utils";
 import { useState, useEffect } from "react";
+import useProjectsStore from "@/store/projectsStore";
+import useCertificationStore from "@/store/certificationsStore";
+import personalInfoStore from "@/store/personalInfoStore";
+import PortfolioSkeleton from "./home-skeleton";
 
 export function PortfolioContent() {
-  // Fetch data from Firebase
-  const personalInfoPromise = getPersonalInfo();
-  const projectsPromise = getProjects();
-  const certificationsPromise = getCertifications();
+  const { personalInfo, getPersonalInfo } = personalInfoStore();
 
-  const [personalInfo, setPersonalInfo] = useState<any>({
-    name: "",
-    title: "",
-    bio: "",
-    email: "",
-    location: "",
-    jobStatus: "",
-    website: "",
-    profilePicture: "",
-    skills: [],
-    stats: [],
-  });
-  const [projects, setProjects] = useState<any[]>([]);
-  const [certifications, setCertifications] = useState<any[]>([]);
+  // const [projects, setProjects] = useState<any[]>([]);
+  const { projects, getProjects } = useProjectsStore();
+
+  const { certificates, getCertificates } = useCertificationStore();
 
   const [loading, setLoading] = useState(true);
 
@@ -43,16 +31,13 @@ export function PortfolioContent() {
     let mounted = true;
     (async () => {
       try {
-        const [pInfo, prj, certs] = await Promise.all([
-          personalInfoPromise,
-          projectsPromise,
-          certificationsPromise,
+        await Promise.all([
+          getPersonalInfo(),
+          getProjects(),
+          getCertificates(),
         ]);
+
         if (!mounted) return;
-        setPersonalInfo(pInfo || {});
-        setProjects(prj || []);
-        setCertifications(certs || []);
-        console.log("done");
       } catch (err) {
         console.error("Failed to load portfolio data", err);
       } finally {
@@ -65,6 +50,7 @@ export function PortfolioContent() {
   }, []);
 
   // Default skills if not provided in personalInfo
+
   const skills = personalInfo.skills || [
     "HTML",
     "CSS",
@@ -136,7 +122,7 @@ export function PortfolioContent() {
   // }
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <PortfolioSkeleton />;
   }
 
   return (
@@ -237,10 +223,9 @@ export function PortfolioContent() {
           <div>
             <p className="text-zinc-300 mb-4">
               I'm a passionate {personalInfo.title} with a keen eye for creating
-              elegant, efficient, and user-friendly websites. With{" "}
-              {stats[2]?.value || 4} years of experience in the field, I've
-              developed a strong understanding of web technologies and best
-              practices.
+              elegant, efficient, and user-friendly websites. With 3 years of
+              experience in the field, I've developed a strong understanding of
+              web technologies and best practices.
             </p>
             <p className="text-zinc-300 mb-4">
               My journey in web development began when I discovered my passion
@@ -370,7 +355,7 @@ export function PortfolioContent() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {certifications.map((cert: any) => (
+          {certificates.map((cert: any) => (
             <Card
               key={cert.id}
               className="bg-zinc-900/60 items-start flex flex-col border-zinc-800"

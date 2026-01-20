@@ -1,12 +1,22 @@
+"use client"
 import Link from "next/link"
 import Image from "next/image"
 import { Edit, Plus, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { projects } from "@/lib/data"
+// import { projects } from "@/lib/data"
+import useProjectsStore from "@/store/projectsStore"
+import { useEffect } from "react"
 
 export default function AdminProjects() {
+  const { projects, getProjects } = useProjectsStore()
+
+  useEffect(() => {
+    getProjects()
+  }, [])
+
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -22,7 +32,7 @@ export default function AdminProjects() {
         {projects.map((project) => (
           <Card key={project.id} className="bg-zinc-900/60 border-zinc-800 overflow-hidden">
             <div className="relative h-40">
-              <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+              <Image src={project.image || "/placeholder.svg"} alt={project.title || ""} fill className="object-cover" />
             </div>
             <CardHeader>
               <CardTitle className="text-xl">{project.title}</CardTitle>
@@ -30,11 +40,13 @@ export default function AdminProjects() {
             <CardContent>
               <p className="text-zinc-400 mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {project.tags.map((tag) => (
+                {
+                  project.tags ? project.tags.map((tag) => (
                   <Badge key={tag} variant="outline" className="bg-zinc-800">
                     {tag}
                   </Badge>
-                ))}
+                )) : null
+                }
               </div>
               {project.featured && (
                 <Badge className="bg-cyan-500/20 text-cyan-500 hover:bg-cyan-500/30">Featured</Badge>
