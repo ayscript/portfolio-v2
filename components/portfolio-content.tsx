@@ -175,9 +175,9 @@ export function PortfolioContent() {
                 ))}
               </div>
 
-              <Button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-medium mt-4">
+              <a href={"/Ayomide Olaleye Gideon CV.pdf"} target="_blank" className="w-full py-2 bg-cyan-500 hover:bg-cyan-600 text-black font-medium mt-4">
                 Download CV
-              </Button>
+              </a>
             </div>
           </div>
 
@@ -186,9 +186,7 @@ export function PortfolioContent() {
               <h1 className="text-4xl md:text-5xl font-bold leading-relaxed mb-2 text-cyan-500">
                 Hi 👋
                 <br />
-                <br />
                 I'm <span className="text-white">{personalInfo.name}</span>
-                <br />
                 <br />
                 {personalInfo.title}
               </h1>

@@ -67,7 +67,7 @@ export default function PortfolioSkeleton() {
           </div>
         </section>
       ))}
-      <RetroPortfolio />
+      {/* <RetroPortfolio /> */}
     </div>
   );
 }

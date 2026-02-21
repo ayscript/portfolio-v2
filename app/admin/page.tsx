@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Card,
   CardContent,
@@ -8,20 +8,19 @@ import {
 } from "@/components/ui/card";
 import { projects, certifications } from "@/lib/data";
 import useCertificationStore from "@/store/certificationsStore";
-import personalInfoStore from "@/store/personalInfoStore";
+// import personalInfoStore from "@/store/personalInfoStore";
 import useProjectsStore from "@/store/projectsStore";
 import { useEffect } from "react";
 
 export default function AdminDashboard() {
-
   const { projects, getProjects } = useProjectsStore();
 
   const { certificates, getCertificates } = useCertificationStore();
 
   useEffect(() => {
-    getProjects()
-    getCertificates()
-  }, [])
+    getProjects();
+    getCertificates();
+  }, []);
 
   return (
     <div className="space-y-6">

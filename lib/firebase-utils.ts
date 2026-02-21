@@ -1,6 +1,18 @@
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, query, orderBy } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 
+export interface Project {
+  id?: string
+  title: string
+  description: string
+  link: string
+  featured: boolean
+  tags: string[]
+  image: string
+  createdAt?: string
+  updatedAt?: string
+}
+
 // Personal Info
 export async function getPersonalInfo() {
   try {
